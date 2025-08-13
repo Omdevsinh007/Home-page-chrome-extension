@@ -1,0 +1,41 @@
+<div class="content-wrap">
+  <mux-player
+      #muxPlayer
+      stream-type="on-demand"
+      style="width: 100%;"
+      loop="true"
+      muted="true"
+      autoplay="false"
+      metadata-video-title="Example Video"
+      class="mux"
+    >
+  </mux-player>
+  <div class="container w-full z-10">
+    <div class="backdrop-blur-md bg-white/5 px-4 rounded-xl py-6">
+        <input class="transition-all duration-300 ease-in px-2 py-4 ring hover:ring-2 focus:ring-2 outline-0 rounded-md w-full text-white placeholder:text-white ring-white" [(ngModel)]="searchQuery" placeholder="Search"/>
+    </div>
+    <div class="flex items-center">
+      @if((savedLinks | async) && (savedLinks | async)!.length > 0) {
+        @for (link of (savedLinks | async); track $index) {
+          @if(link && link.type === "Shortcut") {
+            <div class="p-4">
+              <app-link [quickLink]="link" (removeLink)="removeShortcut($event)" />
+            </div>
+          }
+        }
+      }
+      <div class="py-4">
+        <div class="add-links flex justify-center items-center group hover:backdrop-blur-lg hover:bg-white/5">
+          <div matRipple class="transition-all duration-300 ease-in-out w-10 h-10 text-center flex justify-center items-center rounded-full backdrop-blur-md bg-white/10 group-hover:backdrop-blur-3xl group-hover:bg-black/5" [matMenuTriggerFor]="menu">
+            <mat-icon class="!text-white" >add</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="addShortcut()" >Add shortcut</button>
+  <button mat-menu-item (click)="addGroup()" >Add group</button>
+</mat-menu>
