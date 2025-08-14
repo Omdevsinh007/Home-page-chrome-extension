@@ -9,20 +9,22 @@ import { MatRipple } from '@angular/material/core';
 import { Link } from "./components/link/link";
 import { SaveLinks } from './services/save-links';
 import { ShortcutDialog } from './components/shortcut-dialog/shortcut-dialog';
-import { Shortcut } from './models/shortcut';
+import { Group, Shortcut } from './models/shortcut';
 import { GroupShortcut } from './components/group-shortcut/group-shortcut';
 import { GroupName } from './components/group-name/group-name';
 import { environment } from '../environments/environment';
+import { BehaviorSubject } from 'rxjs';
+import { GroupLink } from "./components/group-link/group-link";
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, Link, MatIcon, MatMenuModule, AsyncPipe],
+  imports: [FormsModule, Link, MatIcon, MatMenuModule, AsyncPipe, GroupLink],
   templateUrl: './app.html',
   styleUrl: './app.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class App implements OnInit, AfterViewInit {
-  protected title = 'home-page-extention';
+  protected title = 'home-page-extension';
   private storageService = inject(SaveLinks);
   private dialog = inject(MatDialog);
   private document = inject(DOCUMENT);
@@ -31,6 +33,7 @@ export class App implements OnInit, AfterViewInit {
   protected environment = environment;
 
   savedLinks = this.storageService.getSavedLinks();
+  // savedLinks = new BehaviorSubject<Shortcut[]>([]);
 
   playbackId = signal(environment.playbackId);
   videoTimeStamp = signal(environment.timeStamp);
@@ -42,7 +45,7 @@ export class App implements OnInit, AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     await this.storageService.retrieveSavedLinks();
-    // this.savedLinks.(() => [{ id: '1', url: 'https://webflow.com', name: 'Webflow', type: "Shortcut", group:null }]);
+    // this.savedLinks.next([{ id: '1', url: '', name: 'Google', type: "Group", group:[{ id: '1', url: 'https://youtube.com/', name: 'Google'}, { id: '1', url: 'https://youtube.com/', name: 'Google' }, { id: '1', url: 'https://youtube.com/', name: 'Google' }, { id: '1', url: 'https://youtube.com/', name: 'Google' }, { id: '1', url: 'https://youtube.com/', name: 'Google' }] }]);
   }
 
   ngAfterViewInit(): void {
@@ -56,6 +59,15 @@ export class App implements OnInit, AfterViewInit {
       hasBackdrop: true,
       maxWidth: '600px',
       width: '100%'
+    });
+  }
+
+  editShortcut(value: Shortcut) {
+    this.dialog.open(ShortcutDialog, {
+      hasBackdrop: true,
+      maxWidth: '600px',
+      width: '100%',
+      data: value
     });
   }
 

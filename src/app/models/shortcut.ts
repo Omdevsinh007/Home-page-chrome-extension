@@ -7,6 +7,7 @@ export interface Shortcut {
 }
 
 export interface Group {
+  id: string
   name: string
   url: string
 }
