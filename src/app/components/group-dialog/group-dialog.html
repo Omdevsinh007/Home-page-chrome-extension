@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{ data.name }}</h2>
+<div class="flex h-full px-6">
+  @if(data && data.group!.length > 0) {
+    @for (link of data.group!; track $index) {
+      <div class="p-4">
+        <app-link [quickLink]="link" [index]="$index" (editIndex)="editShortcut($event)" (removeShortcut)="removeShortcut($event)" />
+      </div>
+    }
+  }
+  <div class="py-4">
+    <div class="add-links flex justify-center items-center group hover:backdrop-blur-lg hover:bg-white/5">
+      <div matRipple class="transition-all duration-300 ease-in-out w-10 h-10 text-center flex justify-center items-center rounded-full backdrop-blur-md bg-white/10 group-hover:backdrop-blur-3xl group-hover:bg-black/5" [matMenuTriggerFor]="menu">
+        <mat-icon class="!text-white" >add</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-dialog-actions>
+  <button matButton color="warn" (click)="closeGroup()" >Close</button>
+</mat-dialog-actions>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="addShortcut()" >Add shortcut</button>
+</mat-menu>

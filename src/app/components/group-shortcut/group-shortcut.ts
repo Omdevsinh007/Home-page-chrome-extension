@@ -18,7 +18,7 @@ export class GroupShortcut {
   private dialogRef = inject(MatDialogRef<GroupShortcut>)
   private fb = inject(FormBuilder);
   private service = inject(SaveLinks);
-  data = inject<{ shortcut:Shortcut, index:number, name: string, isNewGroup: boolean }>(MAT_DIALOG_DATA);
+  data = inject<{ shortcut:Shortcut, index:number, isNewGroup: boolean }>(MAT_DIALOG_DATA);
 
   shortcutForm = this.fb.group({
     name: ['', [Validators.required, this.checkForEmptySpaces]],
@@ -26,7 +26,7 @@ export class GroupShortcut {
   });
 
   ngOnInit(): void {
-    if(this.data?.shortcut) {
+    if(this.data?.shortcut && !this.data.isNewGroup) {
       this.shortcutForm.patchValue({
         name: this.data.shortcut.group?.[this.data.index]?.name,
         url: this.data.shortcut.group?.[this.data.index]?.url
@@ -43,22 +43,49 @@ export class GroupShortcut {
       this.shortcutForm.updateValueAndValidity();
       return;
     }
-    const data = await firstValueFrom(this.shortcuts)
+    const data = await firstValueFrom(this.shortcuts);
     const group = data.filter((data => data.id === this.data.shortcut.id))[0]?.group || [];
     const newGroup = {
+      id: crypto.randomUUID(),
       name: this.shortcutForm.get('name')?.value?.trim()!,
       url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!)
     }
     group.push(newGroup);
 
     const shortcut: Shortcut = {
-      id: this.data?.isNewGroup ? crypto.randomUUID() : this.data.shortcut?.id,
+      id: this.data.shortcut?.id,
       type: "Group",
-      name: this.shortcutForm.get('name')!.value,
+      name: this.data.shortcut.name,
       url: null,
       group: group
     }
+    await this.service.addSavedLink(shortcut);
+    this.dialogRef.close();
+  }
 
+  async editShortcut() {
+    if(this.shortcutForm.get('name')?.value?.trim()! === '' || this.shortcutForm.get('url')?.value?.trim()! === '') {
+      this.shortcutForm.markAllAsDirty();
+      this.shortcutForm.markAllAsTouched();
+      this.shortcutForm.updateValueAndValidity();
+      return;
+    }
+    const data = await firstValueFrom(this.shortcuts);
+    const group = data.filter((data => data.id === this.data.shortcut.id))[0]?.group!;
+    const newData = {
+      id: this.data.shortcut.id,
+      name: this.shortcutForm.get('name')?.value?.trim()!,
+      url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!)
+    }
+    group[this.data.index] = newData;
+
+    const shortcut: Shortcut = {
+      id: this.data.shortcut?.id,
+      type: "Group",
+      name: this.data.shortcut.name,
+      url: null,
+      group: group
+    }
     await this.service.addSavedLink(shortcut);
     this.dialogRef.close();
   }
