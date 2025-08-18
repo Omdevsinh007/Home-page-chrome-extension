@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>{{ data.name }}</h2>
-<div class="flex h-full px-6">
-  @if(data && data.group!.length > 0) {
-    @for (link of data.group!; track $index) {
+<h2 mat-dialog-title class="!text-white" >{{ shortcutData().name }}</h2>
+<div class="flex h-full px-6 select-none">
+  @if(shortcutData() && shortcutData().group!.length > 0) {
+    @for (link of shortcutData().group!; track $index) {
       <div class="p-4">
         <app-link [quickLink]="link" [index]="$index" (editIndex)="editShortcut($event)" (removeShortcut)="removeShortcut($event)" />
       </div>

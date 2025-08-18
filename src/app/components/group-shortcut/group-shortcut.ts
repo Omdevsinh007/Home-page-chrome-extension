@@ -60,7 +60,7 @@ export class GroupShortcut {
       group: group
     }
     await this.service.addSavedLink(shortcut);
-    this.dialogRef.close();
+    this.dialogRef.close({ success: true, data: shortcut });
   }
 
   async editShortcut() {
@@ -87,7 +87,7 @@ export class GroupShortcut {
       group: group
     }
     await this.service.addSavedLink(shortcut);
-    this.dialogRef.close();
+    this.dialogRef.close({ success: true, data: shortcut });
   }
 
   checkForEmptySpaces(control: AbstractControl): ValidationErrors | null {

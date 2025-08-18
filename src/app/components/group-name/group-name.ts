@@ -38,6 +38,7 @@ export class GroupName implements OnInit {
       url: '',
       group: []
     }
+    this.savedLinkGroup.addSavedLink(data);
     this.dialog.open(GroupDialog, {
       hasBackdrop: true,
       maxWidth: '70dvw',

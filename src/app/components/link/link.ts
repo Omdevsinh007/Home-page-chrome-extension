@@ -25,6 +25,7 @@ export class Link {
   }
 
   remove() {
+    console.log(this.quickLink())
     this.removeShortcut.emit(this.quickLink()!.id);
   }
 }

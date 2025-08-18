@@ -1,4 +1,4 @@
-<div class="relative" >
+<div class="relative select-none" >
   <div
     matRipple
     matRippleColor="#c9c9c924"
@@ -43,6 +43,9 @@
 </div>
 
 <mat-menu #menu="matMenu">
+  @if(quickLink()?.type === "Group") {
+    <button mat-menu-item (click)="openShortcutGroup()" >Open Group</button>
+  }
   <button mat-menu-item (click)="editShortcut()" >Edit shortcut</button>
   <button mat-menu-item (click)="removeShortcut()" >Remove</button>
 </mat-menu>
