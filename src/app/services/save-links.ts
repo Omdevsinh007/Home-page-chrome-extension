@@ -7,7 +7,7 @@ import { firstValueFrom, ReplaySubject } from 'rxjs';
 })
 export class SaveLinks {
   // Should be an array to store multiple links
-  private savedLinks = new ReplaySubject<Shortcut[]>();
+  private savedLinks = new ReplaySubject<Shortcut[]>(1);
   private storage = 'savedLinks';
 
   private get<T>(key: string): Promise<T | undefined> {
@@ -33,6 +33,7 @@ export class SaveLinks {
   async addSavedLink(value: Shortcut) {
     // Get current links and add the new one
     const currentLinks = await firstValueFrom(this.savedLinks);
+    console.log(currentLinks)
     const index = currentLinks.findIndex(shortcut => shortcut.id === value.id);
     let updatedLinks: Shortcut[] = index === -1 ? [...currentLinks, value] : currentLinks.map((link, i) => (i === index ? value : link));
 
@@ -40,6 +41,7 @@ export class SaveLinks {
     await this.set(this.storage, updatedLinks);
 
     // Update the signal
+    console.log(updatedLinks)
     this.savedLinks.next(updatedLinks);
   }
 

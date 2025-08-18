@@ -1,5 +1,5 @@
 <h2 class="!text-white" mat-dialog-title>
-  {{ data ? 'Edit Shortcut' : 'Add Shortcut' }}
+  {{ data.isNewGroup ? 'Edit Shortcut' : 'Add Shortcut' }}
 </h2>
 <div class="">
   <form [formGroup]="shortcutForm">
@@ -27,5 +27,9 @@
 </div>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>
-  <button mat-flat-button [disabled]="shortcutForm.invalid" (click)="addShortcut()" >Save</button>
+  @if(data.isNewGroup) {
+    <button mat-flat-button [disabled]="shortcutForm.invalid" (click)="addShortcut()" >Save</button>
+  } @else {
+    <button mat-flat-button [disabled]="shortcutForm.invalid" (click)="editShortcut()" >Save</button>
+  }
 </mat-dialog-actions>

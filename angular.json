@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "home-page-extention": {
+    "home-page-extension": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -68,10 +68,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "home-page-extention:build:production"
+              "buildTarget": "home-page-extension:build:production"
             },
             "development": {
-              "buildTarget": "home-page-extention:build:development"
+              "buildTarget": "home-page-extension:build:development"
             }
           },
           "defaultConfiguration": "development"

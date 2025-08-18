@@ -19,7 +19,12 @@
         @for (link of (savedLinks | async); track $index) {
           @if(link && link.type === "Shortcut") {
             <div class="p-4">
-              <app-link [quickLink]="link" (removeLink)="removeShortcut($event)" />
+              <app-link [quickLink]="link" (removeShortcut)="removeShortcut($event)" (editShortcut)="editShortcut($event)" />
+            </div>
+          }
+          @if(link && link.type === "Group") {
+            <div class="p-4">
+              <app-group-link [quickLink]="link" (openGroup)="openShortcutGroup($event)" (removeLink)="removeShortcut($event)" />
             </div>
           }
         }
