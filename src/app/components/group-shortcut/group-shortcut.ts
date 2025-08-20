@@ -48,8 +48,10 @@ export class GroupShortcut {
     const newGroup = {
       id: crypto.randomUUID(),
       name: this.shortcutForm.get('name')?.value?.trim()!,
-      url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!)
+      url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!),
+      position: group.length
     }
+
     group.push(newGroup);
 
     const shortcut: Shortcut = {
@@ -57,7 +59,8 @@ export class GroupShortcut {
       type: "Group",
       name: this.data.shortcut.name,
       url: null,
-      group: group
+      group: group,
+      position: this.data.shortcut?.position
     }
     await this.service.addSavedLink(shortcut);
     this.dialogRef.close({ success: true, data: shortcut });
@@ -73,9 +76,10 @@ export class GroupShortcut {
     const data = await firstValueFrom(this.shortcuts);
     const group = data.filter((data => data.id === this.data.shortcut.id))[0]?.group!;
     const newData = {
-      id: this.data.shortcut.id,
+      id: group[this.data.index].id,
       name: this.shortcutForm.get('name')?.value?.trim()!,
-      url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!)
+      url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!),
+      position: group[this.data.index].position
     }
     group[this.data.index] = newData;
 
@@ -84,7 +88,8 @@ export class GroupShortcut {
       type: "Group",
       name: this.data.shortcut.name,
       url: null,
-      group: group
+      group: group,
+      position: this.data.shortcut?.position
     }
     await this.service.addSavedLink(shortcut);
     this.dialogRef.close({ success: true, data: shortcut });
