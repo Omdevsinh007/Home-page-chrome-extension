@@ -28,3 +28,35 @@
     cursor: pointer;
   }
 }
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track (background of scrollbar) */
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+/* Scrollbar handle */
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle hover effect */
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.custom-shortcut-placeholder {
+  background: #eaeaea59;
+  border: dotted 3px #c4c4c474;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

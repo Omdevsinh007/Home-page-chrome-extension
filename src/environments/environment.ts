@@ -1,7 +1,11 @@
 export const environment = {
+  isProd: '',
   playbackId: '',
   timeStamp: '',
   get poster(): string {
-    return ''; 
+    return '';
+  },
+  get dummyData() {
+    return ''
   }
 };
