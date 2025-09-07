@@ -3,14 +3,15 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Link } from '../link/link';
-import { Group, Shortcut } from '../../models/shortcut';
+import { Shortcut } from '../../models/shortcut';
 import { SaveLinks } from '../../services/save-links';
 import { GroupShortcut } from '../group-shortcut/group-shortcut';
 
 @Component({
   selector: 'app-group-dialog',
-  imports: [MatDialogModule, Link, MatMenuModule, MatIcon, MatButton],
+  imports: [MatDialogModule, Link, MatMenuModule, MatIcon, MatButton, DragDropModule],
   templateUrl: './group-dialog.html',
   styleUrl: './group-dialog.css'
 })
@@ -65,5 +66,11 @@ export class GroupDialog {
       return ({ ...v, group: v.group?.filter(g => g.id !== id)!});
     });
     this.savedLinks.addSavedLink(this.shortcutData());
+  }
+
+  async drop(event: CdkDragDrop<Shortcut[]>) {
+    moveItemInArray(this.shortcutData().group!, event.previousIndex, event.currentIndex);
+    this.shortcutData.update((value) => ({...value, group: value.group!.map((data, index) => ({...data, position: index}))}));
+    await this.savedLinks.addSavedLink(this.shortcutData());
   }
 }

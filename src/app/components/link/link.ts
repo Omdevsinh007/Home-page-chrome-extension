@@ -3,7 +3,6 @@ import { Group, Shortcut } from '../../models/shortcut';
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ShortcutDialog } from '../shortcut-dialog/shortcut-dialog';
 
 @Component({
   selector: 'app-link',
@@ -25,7 +24,6 @@ export class Link {
   }
 
   remove() {
-    console.log(this.quickLink())
     this.removeShortcut.emit(this.quickLink()!.id);
   }
 }

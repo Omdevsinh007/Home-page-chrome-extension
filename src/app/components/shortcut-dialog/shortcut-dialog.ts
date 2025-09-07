@@ -24,6 +24,8 @@ export class ShortcutDialog implements OnInit {
     url: ['', [Validators.required, this.checkForEmptySpaces]],
   });
 
+  shortcutDataLength = 0
+
   ngOnInit(): void {
     if(this.data) {
       this.shortcutForm.patchValue({
@@ -31,6 +33,11 @@ export class ShortcutDialog implements OnInit {
         url: this.data.url
       })
     }
+    this.service.getSavedLinks().subscribe({
+      next:(data) => {
+        this.shortcutDataLength = data.length;
+      }
+    })
   }
 
   async addShortcut() {
@@ -42,6 +49,7 @@ export class ShortcutDialog implements OnInit {
     }
     const shortcut: Shortcut = {
       id: this.data ?  this.data.id : crypto.randomUUID(),
+      position: this.data ?  this.data.position : this.shortcutDataLength,
       type: "Shortcut",
       name: this.shortcutForm.get('name')?.value?.trim()!,
       url: this.modifyUrl(this.shortcutForm.get('url')?.value?.trim()!),
@@ -50,7 +58,7 @@ export class ShortcutDialog implements OnInit {
     try {
       await this.service.addSavedLink(shortcut);
     } catch(err) {
-      console.log(err)
+      console.log({})
     }
     this.dialogRef.close();
   }

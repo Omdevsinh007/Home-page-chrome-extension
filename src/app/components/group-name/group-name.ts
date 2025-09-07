@@ -26,17 +26,25 @@ export class GroupName implements OnInit {
     if(this.data && this.data.name) {
       this.groupName = this.data.name;
     }
+    this.savedLinkGroup.getSavedLinks().subscribe({
+      next:(data) => {
+        this.shortcutData = data.length;
+      }
+    })
   }
+
+  shortcutData = 0
 
   groupName = "";
 
-  createGroup() {
+  async createGroup() {
     const data: Shortcut = {
       id: crypto.randomUUID(),
       type: "Group",
       name: this.groupName,
       url: '',
-      group: []
+      group: [],
+      position: this.shortcutData
     }
     this.savedLinkGroup.addSavedLink(data);
     this.dialog.open(GroupDialog, {
@@ -58,7 +66,8 @@ export class GroupName implements OnInit {
       type: this.data.type,
       name: this.groupName,
       url: this.data.url,
-      group: this.data.group
+      group: this.data.group,
+      position: this.shortcutData
     }
     this.savedLinkGroup.addSavedLink(data)
   }
