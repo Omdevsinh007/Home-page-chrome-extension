@@ -4,9 +4,12 @@ export interface Shortcut {
   name: string | null
   url: string | null
   group: Group[] | null,
+  position: number
 }
 
 export interface Group {
+  id: string
   name: string
-  url: string
+  url: string,
+  position: number
 }

@@ -11,17 +11,24 @@
     >
   </mux-player>
   <div class="container w-full z-10">
-    <div class="backdrop-blur-md bg-white/5 px-4 rounded-xl py-6">
+    <!-- <div class="backdrop-blur-md bg-white/5 px-4 rounded-xl py-6">
         <input class="transition-all duration-300 ease-in px-2 py-4 ring hover:ring-2 focus:ring-2 outline-0 rounded-md w-full text-white placeholder:text-white ring-white" [(ngModel)]="searchQuery" placeholder="Search"/>
-    </div>
-    <div class="flex items-center">
-      @if((savedLinks | async) && (savedLinks | async)!.length > 0) {
-        @for (link of (savedLinks | async); track $index) {
-          @if(link && link.type === "Shortcut") {
-            <div class="p-4">
-              <app-link [quickLink]="link" (removeLink)="removeShortcut($event)" />
+    </div> -->
+    <div class="flex flex-wrap" cdkDropListOrientation="mixed" cdkDropList (cdkDropListDropped)="drop($event)">
+      @if(linksData() && linksData()!.length > 0) {
+        @for (link of linksData(); track $index) {
+          <div class="!p-4" cdkDrag>
+            <div class="custom-shortcut-placeholder rounded-md m-4" *cdkDragPlaceholder>
+              <div class="w-28 rounded-md" >
+              </div>
             </div>
-          }
+            @if(link && link.type === "Shortcut") {
+              <app-link [quickLink]="link" (removeShortcut)="removeShortcut($event)" (editShortcut)="editShortcut($event)" />
+            }
+            @if(link && link.type === "Group") {
+              <app-group-link [quickLink]="link" (openGroup)="openShortcutGroup($event)" (removeLink)="removeShortcut($event)" />
+            }
+          </div>
         }
       }
       <div class="py-4">

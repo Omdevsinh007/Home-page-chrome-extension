@@ -1,33 +1,8 @@
-.mux {
-  --controls: none;
-  --media-object-fit: cover;
-  position: absolute;
-  width: 100dvw;
-  height: 100dvh;
-  top: 0;
-  left: 0;
-}
-.content-wrap {
-  position: relative;
-  width: 100dvw;
-  height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.inner-wrap {
-  width: 100%;
-  z-index: 10;
-  padding: 0 20px;
-}
-input-wrap {
-  background-color: color-mix(in oklab, var(--color-black) /* #000 = #000000 */ 5%, transparent);
-  --tw-backdrop-blur: blur(var(--blur-md) /* 12px */);
-  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-  padding-block: 24px;
-  padding-inline: 20px;
-  border-radius: 16px;
+::ng-deep .mat-mdc-dialog-surface {
+  --mat-dialog-container-color: color-mix(in oklab, var(--color-black) /* #fff = #ffffff */ 35%, transparent);
+  --tw-backdrop-blur: blur(var(--blur-xl) /* 24px */) !important;
+  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,) !important;
+  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,) !important;
 }
 .add-links {
   transition-property: all;
@@ -52,6 +27,27 @@ input-wrap {
   .add-links:hover {
     cursor: pointer;
   }
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track (background of scrollbar) */
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+/* Scrollbar handle */
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle hover effect */
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .cdk-drag-animating {

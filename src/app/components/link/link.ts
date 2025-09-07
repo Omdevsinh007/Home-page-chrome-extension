@@ -1,9 +1,8 @@
 import { Component, inject, input, output } from '@angular/core';
-import { Shortcut } from '../../models/shortcut';
+import { Group, Shortcut } from '../../models/shortcut';
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ShortcutDialog } from '../shortcut-dialog/shortcut-dialog';
 
 @Component({
   selector: 'app-link',
@@ -12,20 +11,19 @@ import { ShortcutDialog } from '../shortcut-dialog/shortcut-dialog';
   styleUrl: './link.css'
 })
 export class Link {
-  quickLink = input<Shortcut>();
+  quickLink = input<Shortcut | Group>();
+  index = input<number>()
   private dialog = inject(MatDialog);
-  removeLink = output<string>();
+  removeShortcut = output<string>();
+  editShortcut = output<Shortcut>();
+  editIndex = output<number>();
 
-  editShortcut() {
-    this.dialog.open(ShortcutDialog, {
-      hasBackdrop: true,
-      maxWidth: '600px',
-      width: '100%',
-      data: this.quickLink()
-    });
+  edit() {
+    this.editShortcut.emit(this.quickLink() as Shortcut);
+    this.editIndex.emit(this.index()!)
   }
 
-  removeShortcut() {
-    this.removeLink.emit(this.quickLink()!.id);
+  remove() {
+    this.removeShortcut.emit(this.quickLink()!.id);
   }
 }

@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { GroupShortcut } from '../group-shortcut/group-shortcut';
 import { MatButtonModule } from '@angular/material/button';
 import { Shortcut } from '../../models/shortcut';
+import { SaveLinks } from '../../services/save-links';
+import { GroupDialog } from '../group-dialog/group-dialog';
 
 @Component({
   selector: 'app-group-name',
@@ -16,38 +18,57 @@ import { Shortcut } from '../../models/shortcut';
 export class GroupName implements OnInit {
 
   private dialogRef = inject(MatDialogRef<GroupName>);
-  readonly data = inject<{ name: string }>(MAT_DIALOG_DATA);
-  private dialog = inject(MatDialog)
+  readonly data = inject<Shortcut>(MAT_DIALOG_DATA);
+  private dialog = inject(MatDialog);
+  private savedLinkGroup = inject(SaveLinks);
 
   ngOnInit(): void {
     if(this.data && this.data.name) {
       this.groupName = this.data.name;
     }
+    this.savedLinkGroup.getSavedLinks().subscribe({
+      next:(data) => {
+        this.shortcutData = data.length;
+      }
+    })
   }
+
+  shortcutData = 0
 
   groupName = "";
 
-  createGroup() {
-    this.dialog.open(GroupShortcut, {
+  async createGroup() {
+    const data: Shortcut = {
+      id: crypto.randomUUID(),
+      type: "Group",
+      name: this.groupName,
+      url: '',
+      group: [],
+      position: this.shortcutData
+    }
+    this.savedLinkGroup.addSavedLink(data);
+    this.dialog.open(GroupDialog, {
       hasBackdrop: true,
-      maxWidth: '600px',
+      maxWidth: '70dvw',
+      maxHeight: '70dvh',
+      height: '100%',
       width: '100%',
-      data: { name: this.groupName, isNewGroup: true }
+      disableClose: true,
+      data: data,
+      id: "dialog-group-overlay"
     });
     this.dialogRef.close()
   }
 
-  // editGroup(data: Shortcut, index: number) {
-  //   this.dialog.open(GroupShortcut, {
-  //     hasBackdrop: true,
-  //     maxWidth: '600px',
-  //     width: '100%',
-  //     data: { shortcut: data, index: index ,name:this.groupName }
-  //   });
-  //   this.dialogRef.close()
-  // }
-
   saveGroup() {
-
+    const data: Shortcut = {
+      id: this.data.id,
+      type: this.data.type,
+      name: this.groupName,
+      url: this.data.url,
+      group: this.data.group,
+      position: this.shortcutData
+    }
+    this.savedLinkGroup.addSavedLink(data)
   }
 }
