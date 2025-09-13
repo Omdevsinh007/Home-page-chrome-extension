@@ -26,7 +26,7 @@
               <app-link [quickLink]="link" (removeShortcut)="removeShortcut($event)" (editShortcut)="editShortcut($event)" />
             }
             @if(link && link.type === "Group") {
-              <app-group-link [quickLink]="link" (openGroup)="openShortcutGroup($event)" (removeLink)="removeShortcut($event)" />
+              <app-group-link [quickLink]="link" (click)="openShortcutGroup(link)" (removeLink)="removeShortcut($event)" />
             }
           </div>
         }
