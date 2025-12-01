@@ -1,8 +1,7 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Group, Shortcut } from '../../models/shortcut';
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-link',
@@ -12,8 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class Link {
   quickLink = input<Shortcut | Group>();
-  index = input<number>()
-  private dialog = inject(MatDialog);
+  index = input<number>();
   removeShortcut = output<string>();
   editShortcut = output<Shortcut>();
   editIndex = output<number>();

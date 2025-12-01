@@ -8,6 +8,7 @@ import { Link } from '../link/link';
 import { Shortcut } from '../../models/shortcut';
 import { SaveLinks } from '../../services/save-links';
 import { GroupShortcut } from '../group-shortcut/group-shortcut';
+import { GroupName } from '../group-name/group-name';
 
 @Component({
   selector: 'app-group-dialog',
@@ -59,6 +60,23 @@ export class GroupDialog {
 
   closeGroup() {
     this.dialogRef.close()
+  }
+
+  editGroup() {
+    const dialogRef = this.dialog.open(GroupName, {
+      hasBackdrop: true,
+      maxWidth: '600px',
+      width: '100%',
+      data: this.shortcutData()
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      this.shortcutData.update(() => data);
+    })
+  }
+
+  async removeGroup(id: any) {
+    await this.savedLinks.removeSavedLink(id);
+    this.closeGroup();
   }
 
   removeShortcut(id: string) {
