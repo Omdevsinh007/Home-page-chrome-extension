@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { GroupShortcut } from '../group-shortcut/group-shortcut';
 import { MatButtonModule } from '@angular/material/button';
 import { Shortcut } from '../../models/shortcut';
 import { SaveLinks } from '../../services/save-links';
@@ -70,5 +69,6 @@ export class GroupName implements OnInit {
       position: this.shortcutData
     }
     this.savedLinkGroup.addSavedLink(data)
+    this.dialogRef.close(data);
   }
 }

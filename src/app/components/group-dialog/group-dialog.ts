@@ -63,16 +63,20 @@ export class GroupDialog {
   }
 
   editGroup() {
-    this.dialog.open(GroupName, {
+    const dialogRef = this.dialog.open(GroupName, {
       hasBackdrop: true,
       maxWidth: '600px',
       width: '100%',
       data: this.shortcutData()
     });
+    dialogRef.afterClosed().subscribe((data) => {
+      this.shortcutData.update(() => data);
+    })
   }
 
   async removeGroup(id: any) {
     await this.savedLinks.removeSavedLink(id);
+    this.closeGroup();
   }
 
   removeShortcut(id: string) {
