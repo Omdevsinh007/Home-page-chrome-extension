@@ -15,7 +15,6 @@ export class GroupLink {
   quickLink = input<Shortcut>();
   private dialog = inject(MatDialog);
   removeLink = output<string>();
-  openGroup = output<Shortcut>()
 
   editShortcut() {
     this.dialog.open(GroupName, {
@@ -24,10 +23,6 @@ export class GroupLink {
       width: '100%',
       data: this.quickLink()
     });
-  }
-
-  openShortcutGroup() {
-    this.openGroup.emit(this.quickLink()!)
   }
 
   removeShortcut() {
